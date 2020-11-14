@@ -1,0 +1,31 @@
+{
+  "name": "masjid-app",
+  "version": "1.0.0",
+  "description": "Bury Park Masjid Membership",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "cd client && yarn start",
+    "server": "nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run client\" \"npm run server\"",
+    "client:build": "cd client && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hoquem/masjid-app.git"
+  },
+  "author": "Mahmudul Hoque",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hoquem/masjid-app/issues"
+  },
+  "homepage": "https://github.com/hoquem/masjid-app#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "joi": "^17.3.0",
+    "nodemon": "^2.0.6"
+  }
+}
