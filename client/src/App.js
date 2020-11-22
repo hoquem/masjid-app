@@ -1,25 +1,31 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import axios from 'axios'
+//import axios from 'axios'
+
+import Navigation from './components/navigation';
+import Members from './components/members';
 
 class App extends Component {
-  state = {
-    response: {}
-  };
-  
-  componentDidMount() {
-    axios.get('/api/v1/say-something').then((res) => {
-      const response = res.data;
-      this.setState({response});
-    });
-  }
+
+    componentDidMount() {
+      //axios.get('/api/v1/say-something').then((res) => {
+      //  const response = res.data;
+      //  this.setState({response});
+      //});
+    }
 
   render() {
     return (
-      <div className="App">
-        <h1>Hello from the frontend!</h1>
-        <h1>{this.state.response.body}</h1>
-      </div>
+      <Router>
+        <div>
+          <Navigation />
+          <Switch>
+            <Route path="/members" component={Members} />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
