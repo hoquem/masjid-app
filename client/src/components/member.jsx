@@ -6,10 +6,12 @@ class Member extends Component {
     
     handleEditButtonClick = (e) => {
         console.log("edit button clicked - " + this.props.member.memberId); 
+        this.props.handleMemberUpdate({});
     }
 
     handleRemoveButtonClick = (e) => {
         console.log("remove button clicked - " + this.props.member.memberId); 
+        this.props.handleMemberRemove({});
     }
 
     render () {

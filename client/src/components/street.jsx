@@ -5,7 +5,17 @@ import Member from './member';
 class Street extends Component {
 
     handleAddButtonClick = (e) => {
-        this.props.addMember({_id: "111"});
+        this.props.addMember(this.props.street);
+    }
+
+    handleMemberUpdate = (m) => {
+        console.log("Street - handleMemberUpdate");
+        this.props.updateMember(m);
+    }
+
+    handleMemberRemove = (m) => {
+        console.log("Street - handleMemberUpdate");
+        this.props.removeMember(m);
     }
 
     render () {
@@ -20,12 +30,15 @@ class Street extends Component {
             </tr>
             {this.props.street.members.map((member) => {
                 return (
-                    <Member key={member.memberId} member={member} />
+                    <Member 
+                        key={member.memberId} 
+                        member={member} 
+                        handleMemberUpdate={this.handleMemberUpdate}
+                        handleMemberRemove={this.handleMemberRemove}
+                    />
                 );
             })}
 
-            <tr><td></td><td></td><td></td></tr>
-            <tr><td></td><td></td><td></td></tr>
             <tr><td></td><td></td><td></td></tr>
             <tr><td colSpan="3"></td></tr>
 

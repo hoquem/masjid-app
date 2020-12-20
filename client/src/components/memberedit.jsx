@@ -10,37 +10,43 @@ class MemberEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      membername: props.member.name,
-      memberhouse: props.member.house,
-      memberstreet: props.member.street
+      membername: "",
+      memberhouse: "",
+      memberstreet: ""
+      
     }
   }
 
   handleSave = (e) => {
-    console.log("MemberEdit - handleSave");
-    this.props.member.name = this.state.membername;
-    this.props.member.house = this.state.memberhouse;
-    this.props.member.street = this.state.memberstreet
-    this.props.onSave(this.props.member);
+    const membername = this.state.membername ? this.state.membername : this.props.member.name;
+    const memberhouse = this.state.memberhouse ? this.state.memberhouse : this.props.member.house;
+    const memberstreet = this.state.memberstreet ? this.state.memberstreet : this.props.member.street;
+    const member = {
+      name: membername,
+      house: memberhouse,
+      street: memberstreet
+    }
+    this.props.onSave(member);
   }
   
   handleCancel = () => {
-    console.log("MemberEdit - handleSave");
-    this.props.member.name = this.state.membername;
-    this.props.member.house = this.state.memberhouse;
-    this.props.member.street = this.state.memberstreet
-    this.props.onCancel(this.props.member);
+    const member = {
+      name: this.state.membername,
+      house: this.state.memberhouse,
+      street: this.state.memberstreet
+    }
+    this.props.onCancel(member);
   }
 
   render() {
+    console.log("Member Edit - RENDER");
   return (
     <Modal
       {...this.props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
-      centered
     >
-      <Modal.Header closeButton>
+      <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
           Member details
         </Modal.Title>
@@ -55,7 +61,7 @@ class MemberEdit extends Component {
           aria-label="Membername"
           aria-describedby="membername"
           onChange={e => this.setState({ membername: e.target.value })}
-          value={this.state.membername}
+          defaultValue={this.props.member.name}
         />
       </InputGroup>
       <br/>
@@ -68,7 +74,7 @@ class MemberEdit extends Component {
           aria-label="House #"
           aria-describedby="house"
           onChange={e => this.setState({ memberhouse: e.target.value })}
-          value={this.state.memberhouse}
+          defaultValue={this.props.member.house}
         />
       </InputGroup>
       <InputGroup className="mb-3">
@@ -80,7 +86,7 @@ class MemberEdit extends Component {
           aria-label="Street"
           aria-describedby="street"
           onChange={e => this.setState({ memberstreet: e.target.value })}
-          value={this.state.memberstreet}
+          defaultValue={this.props.member.street}
         />
       </InputGroup>
       </Modal.Body>
