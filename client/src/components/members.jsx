@@ -90,6 +90,8 @@ class Members extends Component {
   
   handleAddNewMemberButtonClick = (e) => {
     console.log("Members - handelAddNewMemberButtonClick");
+    const street = {name: ""};
+    this.addNewMember(street);
   }
 
   addNewMember = (street) => {
@@ -157,7 +159,10 @@ class Members extends Component {
       let i = this.state.members.length + 1000;
       const streets = this.getStreets();
       const { tempmember } = this.state;
-        return (
+
+      let component;  
+      if( this.state.members.length > 0 ) {
+        component = 
           <React.Fragment>
           <MemberEdit
             member={tempmember}
@@ -181,8 +186,23 @@ class Members extends Component {
             })}
           </tbody>
         </Table>
+        </React.Fragment>;
+      } else {
+        component = 
+          <React.Fragment>
+          <MemberEdit
+            member={tempmember}
+            show={this.state.modalShow}
+            onCancel={this.handleMemberEditCancel}
+            onSave={this.handleMemberEditSave}
+          />
+        <div>
+          <Button onClick={this.handleAddNewMemberButtonClick}>Add Member</Button>
+        </div>
         </React.Fragment>
-        );
+      }
+
+      return component;
     }
 }
   
