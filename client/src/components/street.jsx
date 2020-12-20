@@ -8,13 +8,13 @@ class Street extends Component {
         this.props.addMember(this.props.street);
     }
 
-    handleMemberUpdate = (m) => {
+    handleMemberEdit = (m) => {
         console.log("Street - handleMemberUpdate");
         this.props.updateMember(m);
     }
 
     handleMemberRemove = (m) => {
-        console.log("Street - handleMemberUpdate");
+        console.log("Street - handleMemberRemove");
         this.props.removeMember(m);
     }
 
@@ -33,7 +33,7 @@ class Street extends Component {
                     <Member 
                         key={member.memberId} 
                         member={member} 
-                        handleMemberUpdate={this.handleMemberUpdate}
+                        handleMemberEdit={this.handleMemberEdit}
                         handleMemberRemove={this.handleMemberRemove}
                     />
                 );
