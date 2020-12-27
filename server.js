@@ -44,13 +44,13 @@ if (process.env.NODE_ENV === 'development') {
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
-    saveUnitialized: false,
+    saveUninitialized: false,
     store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
 // Passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.initialize());
+//app.use(passport.session());
 
 // Set global var
 app.use(function(req, res, next) {
@@ -65,11 +65,11 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
-app.use('/', require('./routes/index'));
+//app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/auth'));
-app.use('/members', require('./routes/members'));
-app.use('/newmembers', require('./routes/newmembers'));
-app.use('/api/v1', require('./routes/routes'));
+//app.use('/members', require('./routes/members'));
+//app.use('/newmembers', require('./routes/newmembers'));
+//app.use('/api/v1', require('./routes/routes'));
 
 // This middleware informs the express application to serve our compiled React files
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
@@ -91,4 +91,4 @@ app.get('*', (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 // Configure our server to listen on the port defiend by our port variable
-app.listen(port, () => console.log(`BACK_END_SERVICE_PORT: ${port}`));
+app.listen(PORT, () => console.log(`BACK_END_SERVICE_PORT: ${PORT}`));
