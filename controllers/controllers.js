@@ -20,8 +20,8 @@ const getMembers = (req, res, next) => {
         {_id: "122", memberId: "12", name: "name 12", house: "23", street:"street 3"},
       ]
     
-    res.status(200).json({
-        body: members 
+     res.status(200).json({
+       body: members 
     });
 }
 

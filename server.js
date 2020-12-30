@@ -37,16 +37,19 @@ app.use(methodOverride(function(req, res) {
 
 // Logging
 if (process.env.NODE_ENV === 'development') {
+    console.log('Running in development mode. Using morgan for logging');
     app.use(morgan('dev'));
 }
 
 // Sessions
+/*
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
+*/
 
 // Passport middleware
 //app.use(passport.initialize());
@@ -66,10 +69,13 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
 //app.use('/', require('./routes/index'));
-app.use('/auth', require('./routes/auth'));
-//app.use('/members', require('./routes/members'));
+//app.use('/auth', require('./routes/auth'));
+app.use('/members', require('./routes/members'));
 //app.use('/newmembers', require('./routes/newmembers'));
 //app.use('/api/v1', require('./routes/routes'));
+//app.get('/members', function (req, res) {
+//    res.send('Hello World!')
+//  });
 
 // This middleware informs the express application to serve our compiled React files
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {

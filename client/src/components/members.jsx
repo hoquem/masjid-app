@@ -13,15 +13,15 @@ class Members extends Component {
 
   state = {
     modalShow: false,
-    tempmember:  {name: "name 1", house: "1", street: "street 1"},
+    tempmember:  {Firstname: "firstname", Lastname: "lastname", HouseNo: "1", Street: "street 1", Town: "Town"},
     isAddNewMember: false,
     members: []
   };
 
   componentDidMount() {
     //axios.get('/api/v1/say-something').then((res) => {
-    axios.get('/api/v1/members').then((res) => {
-      const body = res.data.body;
+    axios.get('/members').then((res) => {
+      const body = res.data;
       console.log(body);
       this.setState({members: body});
     });
