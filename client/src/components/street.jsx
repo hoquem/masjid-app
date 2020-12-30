@@ -9,12 +9,10 @@ class Street extends Component {
     }
 
     handleMemberEdit = (m) => {
-        console.log("Street - handleMemberUpdate");
         this.props.updateMember(m);
     }
 
     handleMemberRemove = (m) => {
-        console.log("Street - handleMemberRemove");
         this.props.removeMember(m);
     }
 
@@ -31,7 +29,7 @@ class Street extends Component {
             {this.props.street.members.map((member) => {
                 return (
                     <Member 
-                        key={member.memberId} 
+                        key={member.MemberId} 
                         member={member} 
                         handleMemberEdit={this.handleMemberEdit}
                         handleMemberRemove={this.handleMemberRemove}

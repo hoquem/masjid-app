@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
@@ -7,6 +8,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const dotevn = require('dotenv');
 const morgan = require('morgan');
+const morganBody = require('morgan-body');
 const connectDB = require('./config/db');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -22,6 +24,31 @@ connectDB();
 // Create a new express application named 'app'
 const app = express();
 
+// Logging
+//if (process.env.NODE_ENV === 'development') {
+//    console.log('Running in development mode. Using morgan for logging');
+//    app.use(morgan('dev'));
+//}
+// log only 4xx and 5xx responses to console
+app.use(morgan('dev', {
+    skip: function (req, res) { return res.statusCode < 400 }
+}));
+   
+  // log all requests to access.log
+app.use(morgan('common', {
+    stream: fs.createWriteStream(path.join(__dirname, "logs", 'access.log'), { flags: 'a' })
+}));
+
+const log = fs.createWriteStream(
+    path.join(__dirname, "logs", "express.log"), { flags: "a" }
+);
+
+morganBody(app, {
+    // .. other settings
+    noColors: true,
+    stream: log,
+  });
+
 // Configure the bodyParser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -34,12 +61,6 @@ app.use(methodOverride(function(req, res) {
         return method;
     }
 }));
-
-// Logging
-if (process.env.NODE_ENV === 'development') {
-    console.log('Running in development mode. Using morgan for logging');
-    app.use(morgan('dev'));
-}
 
 // Sessions
 /*

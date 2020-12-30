@@ -10,36 +10,42 @@ class MemberEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      membername: "",
-      memberhouse: "",
-      memberstreet: ""
-      
+      memberFirstname: "",
+      memberLastname: "",
+      memberHouseNo: "",
+      memberStreet: "",
+      memberTown: "Luton"
     }
   }
 
   handleSave = (e) => {
-    const membername = this.state.membername ? this.state.membername : this.props.member.name;
-    const memberhouse = this.state.memberhouse ? this.state.memberhouse : this.props.member.house;
-    const memberstreet = this.state.memberstreet ? this.state.memberstreet : this.props.member.street;
+    const memberFirstname = this.state.memberFirstname ? this.state.memberFirstname : this.props.member.Firstname;
+    const memberLastname = this.state.memberLastname ? this.state.memberLastname : this.props.member.Lastname;
+    const memberHouseNo = this.state.memberhouse ? this.state.memberHouseNo : this.props.member.HouseNo;
+    const memberStreet = this.state.memberstreet ? this.state.memberStreet : this.props.member.Street;
+    //const memberTown = this.state.memberstreet ? this.state.memberTown : this.props.member.Town;
     const member = {
-      name: membername,
-      house: memberhouse,
-      street: memberstreet
+      firstname: memberFirstname,
+      lastname: memberLastname,
+      houseNo: memberHouseNo,
+      street: memberStreet,
+      town: memberStreet
     }
     this.props.onSave(member);
   }
   
   handleCancel = () => {
     const member = {
-      name: this.state.membername,
-      house: this.state.memberhouse,
-      street: this.state.memberstreet
+      firstname: this.state.memberFirstname,
+      lastname: this.state.memberLastname,
+      houseNo: this.state.memberHouseNo,
+      street: this.state.memberStreet,
+      town: this.state.memberTown,
     }
     this.props.onCancel(member);
   }
 
   render() {
-    console.log("Member Edit - RENDER");
   return (
     <Modal
       {...this.props}
@@ -54,27 +60,40 @@ class MemberEdit extends Component {
       <Modal.Body>
       <InputGroup className="mb-3">
         <InputGroup.Prepend>
-        <InputGroup.Text id="membername">Member name</InputGroup.Text>
+        <InputGroup.Text id="firstname">Firstname(s)</InputGroup.Text>
         </InputGroup.Prepend>
         <FormControl
-          placeholder="First name second name last name"
-          aria-label="Membername"
-          aria-describedby="membername"
-          onChange={e => this.setState({ membername: e.target.value })}
-          defaultValue={this.props.member.name}
+          placeholder="First name"
+          aria-label="Firstname"
+          aria-describedby="firstname"
+          onChange={e => this.setState({ memberFirstname: e.target.value })}
+          defaultValue={this.props.member.Firstname}
+        />
+      </InputGroup>
+      <InputGroup className="mb-3">
+        <InputGroup.Prepend>
+        <InputGroup.Text id="lastname">Lastname</InputGroup.Text>
+        </InputGroup.Prepend>
+        <FormControl
+          placeholder="Last name"
+          aria-label="Lastname"
+          aria-describedby="lastname"
+          onChange={e => this.setState({ memberLast: e.target.value })}
+          defaultValue={this.props.member.Lastname}
         />
       </InputGroup>
       <br/>
+      <br/>
       <InputGroup className="mb-3">
         <InputGroup.Prepend>
-        <InputGroup.Text id="house">House</InputGroup.Text>
+        <InputGroup.Text id="HouseNo">House</InputGroup.Text>
         </InputGroup.Prepend>
         <FormControl
           placeholder="House number or name"
           aria-label="House #"
           aria-describedby="house"
-          onChange={e => this.setState({ memberhouse: e.target.value })}
-          defaultValue={this.props.member.house}
+          onChange={e => this.setState({ memberHouseNo: e.target.value })}
+          defaultValue={this.props.member.HouseNo}
         />
       </InputGroup>
       <InputGroup className="mb-3">
@@ -85,8 +104,8 @@ class MemberEdit extends Component {
           placeholder="Street name"
           aria-label="Street"
           aria-describedby="street"
-          onChange={e => this.setState({ memberstreet: e.target.value })}
-          defaultValue={this.props.member.street}
+          onChange={e => this.setState({ memberStreet: e.target.value })}
+          defaultValue={this.props.member.Street}
         />
       </InputGroup>
       </Modal.Body>

@@ -22,12 +22,12 @@ const MemberSchema = new mongoose.Schema({
     },
     city: {
         type: String,
-        required: true,
+        required: false,
         trim: true
     },
     postcode: {
         type: String,
-        required: true,
+        required: false,
         trim: true
     },
     createAt: {

@@ -13,18 +13,20 @@ class Members extends Component {
 
   state = {
     modalShow: false,
-    tempmember:  {Firstname: "firstname", Lastname: "lastname", HouseNo: "1", Street: "street 1", Town: "Town"},
+    tempmember:  {Firstname: "firstname", Lastname: "lastname", HouseNo: "1", Street: "street 1", Town: "Luton"},
     isAddNewMember: false,
     members: []
   };
 
-  componentDidMount() {
-    //axios.get('/api/v1/say-something').then((res) => {
-    axios.get('/members').then((res) => {
-      const body = res.data;
-      console.log(body);
-      this.setState({members: body});
-    });
+  async componentDidMount() {
+
+    try {
+      const res = await axios.get('/members')
+      console.log(res.data);
+      this.setState({members: res.data});
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   setModalShow = (e) => {
@@ -45,25 +47,25 @@ class Members extends Component {
 
   handleMemberEditSave = (m) => {
     if (this.state.isAddNewMember) {
-      console.log("handleMemberEditSave - add new member" + m);
-      if (m.name && m.name.length > 0 &&
-        m.house && m.house.length > 0 &&
-        m.street && m.street.length > 0) {
-          m._id = this.state.members.length + 1;
-          m.house = m.house.toUpperCase();
-          const newmembers = [...this.state.members, m];
-          this.setState({members: newmembers});
+      if (m.Firstname && m.Firstname.length > 0 &&
+          m.Lastname && m.Lastname.length > 0 &&
+          m.HouseNo && m.HouseNo.length > 0 &&
+          m.Street && m.Street.length > 0) {
+          //m._id = this.state.members.length + 1; // TODO: get id from database
+          m.HouseNo = m.HouseNo.toUpperCase();
+          //const newmembers = [...this.state.members, m];
+         // this.setState({members: newmembers});
+         // async save to back end and then reload
         }
       
     } else {
-      console.log("handleMemberEditSave - update existing member" + m);
 
       // find the member to update
       const member = this.state.members.find(m => m._id === this.state.tempmember._id);
       if( member ) {
-        member.name = m.name;
-        member.house = m.house;
-        member.street = m.street;
+        member.Firstnmae = m.Firstname;
+        member.HouseNo = m.HouseNo;
+        member.Street = m.Street;
         this.setState({members: this.state.members});
       }
 
@@ -72,8 +74,6 @@ class Members extends Component {
   }
 
   removeMember = (m) => {
-    console.log("Members - removeMember");
-    console.log(m);
     const index = this.state.members.findIndex(function(o){
       return o._id === m._id;
     });
@@ -85,21 +85,19 @@ class Members extends Component {
   }
   
   handleAddNewMemberButtonClick = (e) => {
-    console.log("Members - handelAddNewMemberButtonClick");
     const street = {name: ""};
     this.addNewMember(street);
   }
 
   addNewMember = (street) => {
-    console.log("Members - addNewMember");
     this.setState({ 
-        tempmember: {name: "", house: "", street: street.name},
+        tempmember:  {firstname: "", lastname: "", houseno: "", street: street.name,  town: "Luton"},
         isAddNewMember: true
       }, this.showMemberEditDialog);
   }
 
   updateMember = (m) => {
-    console.log("Members - updateMember");
+    console.log(m);
     this.setState({ 
         tempmember: m,
         isAddNewMember: false
@@ -108,28 +106,27 @@ class Members extends Component {
 
 
   getStreets () {
-    console.log("getStreets");
     // group members into the streets
     const streets = [];
     this.state.members.forEach((m) => {
      let street = streets.find(s => 
-  	    s.name === m.street
+  	    s.name === m.Street
       );
                             
  	    if(!street) {
         street = {
-          name: m.street, members: []
+          name: m.Street, members: []
         };
         streets.push(street);
       }
       street.members.push(m);
     });
 
-      // sort the houses
+    // sort the houses
     streets.forEach((street) => {
       street.members.sort((a, b) => {
-        var x = a.house;
-        var y = b.house;
+        var x = a.HouseNo;
+        var y = b.HouseNo;
           if (x < y) {return -1;}
           if (x > y) {return 1;}
         return 0;
@@ -142,7 +139,7 @@ class Members extends Component {
       street.members.forEach((m) => {
         
         let clone = Object.assign({},m);
-        clone.memberId = id++;
+        clone.MemberId = id++;
         sortedmembers.push(clone);
       });
       street.members = sortedmembers;
