@@ -56,11 +56,6 @@ router.post('/', ensureAuth, async (req, res) => {
               return res.status(400).send("Member not valid");
           }
 
-          m.Firstname = m.Firstname.toUpperCase();
-          m.Lastname = m.Lastname.toUpperCase();
-          m.HouseNo = m.HouseNo.toUpperCase();
-          m.Street = m.Street.toUpperCase();
-
         //req.body.req.user.id;
         const member = await Member.create(m);
         if (member) {
@@ -81,10 +76,6 @@ router.put('/:id', ensureAuth, async (req, res) => {
     try {
 
         const m = req.body;
-        m.Firstname = m.Firstname.toUpperCase();
-        m.lastname = m.Lastname.toUpperCase();
-        m.HouseNo = m.HouseNo.toUpperCase();
-        m.Street = m.Street.toUpperCase();
 
         const member = await Member.findOneAndUpdate({_id: req.params.id}, m, {
             new: true,
@@ -126,6 +117,5 @@ router.delete('/:id', ensureAuth, async (req, res) => {
         return res.status(500);
     }
 });
-
 
 module.exports = router; 

@@ -66,7 +66,7 @@ class MemberEdit extends Component {
           placeholder="First name"
           aria-label="Firstname"
           aria-describedby="firstname"
-          onChange={e => this.setState({ memberFirstname: e.target.value })}
+          onChange={e => this.setState({ memberFirstname: e.target.value.toLocaleLowerCase() })}
           defaultValue={this.props.member.Firstname}
         />
       </InputGroup>
@@ -78,7 +78,7 @@ class MemberEdit extends Component {
           placeholder="Last name"
           aria-label="Lastname"
           aria-describedby="lastname"
-          onChange={e => this.setState({ memberLastname: e.target.value })}
+          onChange={e => this.setState({ memberLastname: e.target.value.toLocaleLowerCase() })}
           defaultValue={this.props.member.Lastname}
         />
       </InputGroup>
@@ -92,7 +92,7 @@ class MemberEdit extends Component {
           placeholder="House number or name"
           aria-label="House #"
           aria-describedby="house"
-          onChange={e => this.setState({ memberHouseNo: e.target.value })}
+          onChange={e => this.setState({ memberHouseNo: e.target.value.toLocaleUpperCase() })}
           defaultValue={this.props.member.HouseNo}
         />
       </InputGroup>
@@ -104,7 +104,7 @@ class MemberEdit extends Component {
           placeholder="Street name"
           aria-label="Street"
           aria-describedby="street"
-          onChange={e => this.setState({ memberStreet: e.target.value })}
+          onChange={e => this.setState({ memberStreet: e.target.value.toLocaleUpperCase() })}
           defaultValue={this.props.member.Street}
         />
       </InputGroup>

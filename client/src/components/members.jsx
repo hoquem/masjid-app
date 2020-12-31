@@ -56,7 +56,8 @@ class Members extends Component {
 
   async saveUpdatedMember(m) {
     try {
-      const res = await axios.put('members/' + m._id, m);
+      //const res = await axios.put('members/' + m._id, m);
+      await axios.put('members/' + m._id, m);
       // TODO: update with the member details returned from server? 
     } catch (error) {
       console.log(error);
