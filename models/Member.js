@@ -1,31 +1,31 @@
 const mongoose = require('mongoose');
 
 const MemberSchema = new mongoose.Schema({
-    firstname: {
+    Firstname: {
         type: String,
         required: true,
         trim: true
     },
-    lastname: {
+    Lastname: {
         type: String,
         trim: true
     },
-    houseno: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    street: {
+    HouseNo: {
         type: String,
         required: true,
         trim: true
     },
-    city: {
+    Street: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    Town: {
         type: String,
         required: false,
         trim: true
     },
-    postcode: {
+    Postcode: {
         type: String,
         required: false,
         trim: true

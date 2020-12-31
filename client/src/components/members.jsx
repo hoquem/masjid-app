@@ -9,20 +9,16 @@ import Street from './street';
 import MemberEdit from './memberedit';
 
 class Members extends Component {
-  
-
   state = {
     modalShow: false,
-    tempmember:  {Firstname: "firstname", Lastname: "lastname", HouseNo: "1", Street: "street 1", Town: "Luton"},
+    tempmember:  {Firstname: "FIRSTNAME", Lastname: "LASTNAME", HouseNo: "1", Street: "STREET 1", Town: "LUTON"},
     isAddNewMember: false,
     members: []
   };
 
   async componentDidMount() {
-
     try {
-      const res = await axios.get('/members')
-      console.log(res.data);
+      const res = await axios.get('/members');
       this.setState({members: res.data});
     } catch (error) {
       console.log(error);
@@ -45,43 +41,71 @@ class Members extends Component {
     this.hideMemberEditDialog();
   }
 
-  handleMemberEditSave = (m) => {
-    if (this.state.isAddNewMember) {
-      if (m.Firstname && m.Firstname.length > 0 &&
-          m.Lastname && m.Lastname.length > 0 &&
-          m.HouseNo && m.HouseNo.length > 0 &&
-          m.Street && m.Street.length > 0) {
-          //m._id = this.state.members.length + 1; // TODO: get id from database
-          m.HouseNo = m.HouseNo.toUpperCase();
-          //const newmembers = [...this.state.members, m];
-         // this.setState({members: newmembers});
-         // async save to back end and then reload
-        }
-      
-    } else {
+  async saveNewMember(m) {
+    if (m.Firstname && m.Firstname.length > 0 &&
+        m.Lastname && m.Lastname.length > 0 &&
+        m.HouseNo && m.HouseNo.length > 0 &&
+        m.Street && m.Street.length > 0) {
 
-      // find the member to update
-      const member = this.state.members.find(m => m._id === this.state.tempmember._id);
-      if( member ) {
-        member.Firstnmae = m.Firstname;
-        member.HouseNo = m.HouseNo;
-        member.Street = m.Street;
+        const res = await axios.post('/members', m);  
+
+        const newmembers = [...this.state.members, res.data];
+        this.setState({members: newmembers});
+    }
+  }
+
+  async saveUpdatedMember(m) {
+    try {
+      const res = await axios.put('members/' + m._id, m);
+      // TODO: update with the member details returned from server? 
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async saveDelete(m) {
+    try {
+      const res = await axios.delete('members/' + m._id, m);
+
+      const index = this.state.members.findIndex(function(o){
+        return o._id === res.data._id;
+      });
+
+      if (index !== -1) {
+        this.state.members.splice(index, 1);
         this.setState({members: this.state.members});
+      } 
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  handleMemberEditSave = (m) => {
+    try {
+      if (this.state.isAddNewMember) {
+        this.saveNewMember(m);
+      } else {
+        // find the member to update
+        const member = this.state.members.find(m => m._id === this.state.tempmember._id);
+        if( member ) {
+          member.Firstname = m.Firstname;
+          member.Lastname = m.Lastname;
+          member.HouseNo = m.HouseNo;
+          member.Street = m.Street;
+          member.Town = m.Town;
+          this.saveUpdatedMember(member);
+          this.setState({members: this.state.members});
+        }
       }
 
+      this.hideMemberEditDialog();
+    } catch (error) {
+      console.log(error);
     }
-    this.hideMemberEditDialog();
   }
 
   removeMember = (m) => {
-    const index = this.state.members.findIndex(function(o){
-      return o._id === m._id;
-    });
-
-    if (index !== -1) {
-      this.state.members.splice(index, 1);
-      this.setState({members: this.state.members});
-    } 
+    this.saveDelete(m);
   }
   
   handleAddNewMemberButtonClick = (e) => {
@@ -91,27 +115,34 @@ class Members extends Component {
 
   addNewMember = (street) => {
     this.setState({ 
-        tempmember:  {firstname: "", lastname: "", houseno: "", street: street.name,  town: "Luton"},
+        tempmember:  {Firstname: "", Lastname: "", HouseNo: "", Street: street.name,  Town: "LUTON"},
         isAddNewMember: true
       }, this.showMemberEditDialog);
   }
 
   updateMember = (m) => {
-    console.log(m);
     this.setState({ 
         tempmember: m,
         isAddNewMember: false
       }, this.showMemberEditDialog);
   }
 
-
   getStreets () {
     // group members into the streets
+    this.state.members.sort((a,b) => {
+      return a.Street.localeCompare(b.Street);
+    });
+
     const streets = [];
     this.state.members.forEach((m) => {
-     let street = streets.find(s => 
-  	    s.name === m.Street
-      );
+      m.Street = m.Street.toUpperCase();
+      let street = streets.find((s) => { 
+        if (s.name === m.Street) {
+          return true;  
+        } else {
+          return false;
+        }
+      });
                             
  	    if(!street) {
         street = {
@@ -145,6 +176,9 @@ class Members extends Component {
       street.members = sortedmembers;
     });
 
+    //streets.sort( (a,b) => {
+    //  return a.name.localeCompare(b.name);
+    //});
     return streets;
   }
 

@@ -5,12 +5,10 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 class Member extends Component {
     
     handleEditButtonClick = (e) => {
-        console.log("edit button clicked - " + this.props.member.MemberId); 
         this.props.handleMemberEdit(this.props.member);
     }
 
     handleRemoveButtonClick = (e) => {
-        console.log("remove button clicked - " + this.props.member.MemberId); 
         this.props.handleMemberRemove(this.props.member);
     }
 

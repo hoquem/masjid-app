@@ -10,37 +10,37 @@ class MemberEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      memberFirstname: "",
-      memberLastname: "",
-      memberHouseNo: "",
-      memberStreet: "",
-      memberTown: "Luton"
+        memberFirstname:  "",
+        memberLastname:  "",
+        memberHouseNo:  "",
+        memberStreet:  "",
+        memberTown: "Luton"
     }
   }
 
   handleSave = (e) => {
-    const memberFirstname = this.state.memberFirstname ? this.state.memberFirstname : this.props.member.Firstname;
-    const memberLastname = this.state.memberLastname ? this.state.memberLastname : this.props.member.Lastname;
-    const memberHouseNo = this.state.memberhouse ? this.state.memberHouseNo : this.props.member.HouseNo;
-    const memberStreet = this.state.memberstreet ? this.state.memberStreet : this.props.member.Street;
-    //const memberTown = this.state.memberstreet ? this.state.memberTown : this.props.member.Town;
+    const firstname = this.state.memberFirstname ? this.state.memberFirstname : this.props.member.Firstname;
+    const lastname = this.state.memberLastname ? this.state.memberLastname : this.props.member.Lastname;
+    const houseNo = this.state.memberHouseNo ? this.state.memberHouseNo : this.props.member.HouseNo;
+    const street = this.state.memberStreet ? this.state.memberStreet : this.props.member.Street;
+    const town = this.state.memberTown ? this.state.memberTown : this.props.member.Town;
     const member = {
-      firstname: memberFirstname,
-      lastname: memberLastname,
-      houseNo: memberHouseNo,
-      street: memberStreet,
-      town: memberStreet
+      Firstname: firstname,
+      Lastname: lastname,
+      HouseNo: houseNo,
+      Street: street,
+      Town: town  
     }
     this.props.onSave(member);
   }
   
   handleCancel = () => {
     const member = {
-      firstname: this.state.memberFirstname,
-      lastname: this.state.memberLastname,
-      houseNo: this.state.memberHouseNo,
-      street: this.state.memberStreet,
-      town: this.state.memberTown,
+      Firstname: this.state.memberFirstname,
+      Lastname: this.state.memberLastname,
+      HouseNo: this.state.memberHouseNo,
+      Street: this.state.memberStreet,
+      Town: this.state.memberTown,
     }
     this.props.onCancel(member);
   }
@@ -60,7 +60,7 @@ class MemberEdit extends Component {
       <Modal.Body>
       <InputGroup className="mb-3">
         <InputGroup.Prepend>
-        <InputGroup.Text id="firstname">Firstname(s)</InputGroup.Text>
+        <InputGroup.Text id="Firstname">Firstname(s)</InputGroup.Text>
         </InputGroup.Prepend>
         <FormControl
           placeholder="First name"
@@ -72,13 +72,13 @@ class MemberEdit extends Component {
       </InputGroup>
       <InputGroup className="mb-3">
         <InputGroup.Prepend>
-        <InputGroup.Text id="lastname">Lastname</InputGroup.Text>
+        <InputGroup.Text id="Lastname">Lastname</InputGroup.Text>
         </InputGroup.Prepend>
         <FormControl
           placeholder="Last name"
           aria-label="Lastname"
           aria-describedby="lastname"
-          onChange={e => this.setState({ memberLast: e.target.value })}
+          onChange={e => this.setState({ memberLastname: e.target.value })}
           defaultValue={this.props.member.Lastname}
         />
       </InputGroup>
@@ -98,7 +98,7 @@ class MemberEdit extends Component {
       </InputGroup>
       <InputGroup className="mb-3">
         <InputGroup.Prepend>
-        <InputGroup.Text id="street">Street</InputGroup.Text>
+        <InputGroup.Text id="Street">Street</InputGroup.Text>
         </InputGroup.Prepend>
         <FormControl
           placeholder="Street name"
