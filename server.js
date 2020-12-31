@@ -34,7 +34,8 @@ app.use(morgan('dev', {
     skip: function (req, res) { return res.statusCode < 400 }
 }));
    
-  // log all requests to access.log
+/*
+// log all requests to access.log
 app.use(morgan('common', {
     stream: fs.createWriteStream(path.join(__dirname, "logs", 'access.log'), { flags: 'a' })
 }));
@@ -48,6 +49,7 @@ morganBody(app, {
     noColors: true,
     stream: log,
   });
+*/
 
 // Configure the bodyParser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
