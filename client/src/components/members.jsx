@@ -19,6 +19,7 @@ class Members extends Component {
   async componentDidMount() {
     try {
       console.log("Members - componentDidMount 1");
+      /*
       const res = await axios.get('/members');
       this.setState({members: res.data});
       console.log(res.data);
@@ -27,6 +28,7 @@ class Members extends Component {
       console.log(res.headers);
       console.log(res.config);
       console.log("Members - componentDidMount 2");
+      */
     } catch (error) {
       console.log(error);
     }
