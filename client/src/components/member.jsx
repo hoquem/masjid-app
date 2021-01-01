@@ -21,8 +21,8 @@ class Member extends Component {
                 <td>{name}</td>
                 <td>{address}</td>
                 <td><ButtonGroup size="sm">
-                        <Button variant="outline-danger" onClick={this.handleRemoveButtonClick}>r</Button>
                         <Button variant="outline-warning" onClick={this.handleEditButtonClick}>e</Button>
+                        <Button variant="outline-danger" onClick={this.handleRemoveButtonClick}>r</Button>
                     </ButtonGroup>
                 </td>
             </tr>
