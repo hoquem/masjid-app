@@ -18,17 +18,8 @@ class Members extends Component {
 
   async componentDidMount() {
     try {
-      console.log("Members - componentDidMount 1");
-      /*
       const res = await axios.get('/members');
       this.setState({members: res.data});
-      console.log(res.data);
-      console.log(res.status);
-      console.log(res.statusText);
-      console.log(res.headers);
-      console.log(res.config);
-      console.log("Members - componentDidMount 2");
-      */
     } catch (error) {
       console.log(error);
     }
@@ -138,7 +129,6 @@ class Members extends Component {
   }
 
   getStreets () {
-    console.log("Members - getStreets");
     // group members into the streets
     this.state.members.sort((a,b) => {
       return a.Street.localeCompare(b.Street);
@@ -187,12 +177,10 @@ class Members extends Component {
       street.members = sortedmembers;
     });
 
-    console.log("Members - getStreets");
     return streets;
   }
 
     render () {
-      console.log("Members - render");
       let i = this.state.members.length + 1000;
       const streets = this.getStreets();
       const { tempmember } = this.state;
@@ -239,7 +227,6 @@ class Members extends Component {
         </React.Fragment>
       }
 
-      console.log("Members - render");
       return component;
     }
 }
