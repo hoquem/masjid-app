@@ -23,8 +23,8 @@ class Navigation extends Component {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
                         <Nav.Link href="/">Home</Nav.Link>
-                        <Nav.Link href="/Members">Members</Nav.Link>
-                        <Nav.Link href="/Logout">Logout</Nav.Link>
+                        <Nav.Link href="/members">Members</Nav.Link>
+                        <Nav.Link href="/logout">Logout</Nav.Link>
                     </Nav>
                     <Form inline>
                         <FormControl type="text" placeholder="Search" className="mr-sm-2" />
