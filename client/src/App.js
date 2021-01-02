@@ -8,6 +8,15 @@ import Navigation from './components/navigation';
 import Members from './components/members';
 //import Dashboard from './components/dashboard';
 
+const Home = () => {
+  return (
+    <div>
+      <h1>Welcome to the Bury Park Masjid Membership App</h1>
+    </div>
+  );
+};
+
+
 class App extends Component {
 
   render() {
@@ -16,7 +25,10 @@ class App extends Component {
       <Router>
         <div>
           <Navigation />
-          <Route exact path="/members" component={Members} />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/members" component={Members} />
+          </Switch>
         </div>
       </Router>
     );
