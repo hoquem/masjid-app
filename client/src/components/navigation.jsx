@@ -4,11 +4,14 @@ import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
+import {LinkContainer} from 'react-router-bootstrap';
 import FormControl from 'react-bootstrap/FormControl';
+import {SearchTextContext} from './searchtextprovider';
 
 class Navigation extends Component {
     state = {
-        toggle:false
+        toggle:false,
+        searchText: ""
     }
 
     Toggle = () => {
@@ -22,13 +25,25 @@ class Navigation extends Component {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link href="/">Home</Nav.Link>
-                        <Nav.Link href="/members">Members</Nav.Link>
-                        <Nav.Link href="/logout">Logout</Nav.Link>
+                        <LinkContainer to="/">
+                            <Nav.Link href="/">home</Nav.Link>
+                        </LinkContainer>
+                        <LinkContainer to="/members">
+                            <Nav.Link>members</Nav.Link>
+                        </LinkContainer>
+                        <LinkContainer to="/logout">
+                            <Nav.Link href="/logout">logout</Nav.Link>
+                        </LinkContainer>
                     </Nav>
                     <Form inline>
-                        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                        <Button variant="outline-success">Search</Button>
+                        <FormControl type="text" placeholder="search" className="mr-sm-2" 
+                            onChange={e => this.setState({ searchText: e.target.value})}    
+                        />
+                        <SearchTextContext.Consumer>
+                            {(context) => (
+                                <Button variant="outline-success" onClick={()=>{context.setSearchText(this.state.searchText)}}>search</Button>
+                            )}
+                        </SearchTextContext.Consumer>
                     </Form>
                 </Navbar.Collapse>
             </Navbar>

@@ -6,6 +6,7 @@ import './App.css';
 
 import Navigation from './components/navigation';
 import Members from './components/members';
+import SearchTextProvider from './components/searchtextprovider';
 //import Dashboard from './components/dashboard';
 
 const Home = () => {
@@ -18,19 +19,17 @@ const Home = () => {
 
 
 class App extends Component {
-
   render() {
     return (
       //<Dashboard/>
       <Router>
-        <div>
-          <Navigation />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/members" component={Members} />
-            <Route exact path="/logout" component={Members} />
-          </Switch>
-        </div>
+        <SearchTextProvider>
+        <Navigation />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/members" component={Members} />
+        </Switch>
+        </SearchTextProvider>
       </Router>
     );
   }

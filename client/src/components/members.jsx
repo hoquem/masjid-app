@@ -7,17 +7,20 @@ import axios from 'axios';
 
 import Street from './street';
 import MemberEdit from './memberedit';
+import { SearchTextContext } from './searchtextprovider';
 
 class Members extends Component {
-  state = {
-    modalShow: false,
-    tempmember:  {Firstname: "FIRSTNAME", Lastname: "LASTNAME", HouseNo: "1", Street: "STREET 1", Town: "LUTON"},
-    isAddNewMember: false,
-    members: []
-  };
+
+    state = {
+      modalShow: false,
+      tempmember:  {Firstname: "FIRSTNAME", Lastname: "LASTNAME", HouseNo: "1", Street: "STREET 1", Town: "LUTON"},
+      isAddNewMember: false,
+      members: []
+    };
 
   async componentDidMount() {
     try {
+      console.log(this.props);
       const res = await axios.get('/members');
       this.setState({members: res.data});
     } catch (error) {
@@ -128,7 +131,7 @@ class Members extends Component {
       }, this.showMemberEditDialog);
   }
 
-  getStreets () {
+  getStreets (searchText) {
     // group members into the streets
     this.state.members.sort((a,b) => {
       return a.Street.localeCompare(b.Street);
@@ -137,6 +140,7 @@ class Members extends Component {
     const streets = [];
     this.state.members.forEach((m) => {
       m.Street = m.Street.toUpperCase();
+      // find the street object with the same name as the member street name
       let street = streets.find((s) => { 
         if (s.name === m.Street) {
           return true;  
@@ -145,13 +149,20 @@ class Members extends Component {
         }
       });
                             
+      // create the street entry if required
  	    if(!street) {
         street = {
           name: m.Street, members: []
         };
         streets.push(street);
       }
-      street.members.push(m);
+
+      // filter
+      //if(searchText && searchText.length > 0) {
+      //  if(m.Firstname.includes(searchText) || m.Lastname.includes(searchText)) {
+          street.members.push(m); 
+      //  }
+      //}
     });
 
     // sort the houses
@@ -171,8 +182,12 @@ class Members extends Component {
       street.members.forEach((m) => {
         
         let clone = Object.assign({},m);
-        clone.MemberId = id++;
-        sortedmembers.push(clone);
+        clone.MemberId = id++; // each member has an number ID in sequence (this is what the masjid need)
+
+        // apply the filter
+        if(m.Firstname.includes(searchText) || m.Lastname.includes(searchText)) {
+          sortedmembers.push(clone);
+        }
       });
       street.members = sortedmembers;
     });
@@ -182,7 +197,7 @@ class Members extends Component {
 
     render () {
       let i = this.state.members.length + 1000;
-      const streets = this.getStreets();
+      const streets = this.getStreets(this.context.state.searchText.toLocaleUpperCase());
       const { tempmember } = this.state;
 
       let component;  
@@ -230,5 +245,7 @@ class Members extends Component {
       return component;
     }
 }
+
+Members.contextType = SearchTextContext;
   
 export default Members;

@@ -66,7 +66,7 @@ class MemberEdit extends Component {
           placeholder="First name"
           aria-label="Firstname"
           aria-describedby="firstname"
-          onChange={e => this.setState({ memberFirstname: e.target.value.toLocaleLowerCase() })}
+          onChange={e => this.setState({ memberFirstname: e.target.value.toLocaleUpperCase() })}
           defaultValue={this.props.member.Firstname}
         />
       </InputGroup>
@@ -78,7 +78,7 @@ class MemberEdit extends Component {
           placeholder="Last name"
           aria-label="Lastname"
           aria-describedby="lastname"
-          onChange={e => this.setState({ memberLastname: e.target.value.toLocaleLowerCase() })}
+          onChange={e => this.setState({ memberLastname: e.target.value.toLocaleUpperCase() })}
           defaultValue={this.props.member.Lastname}
         />
       </InputGroup>

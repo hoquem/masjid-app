@@ -112,7 +112,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
 // Catch any bad requests
 app.get('*', (req, res) => {
     res.status(200).json({
-        msg: 'Catch All'
+        msg: 'Catch All. Not running in production or staging?'
     });
 });
 

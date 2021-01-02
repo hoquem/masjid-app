@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import Member from './member';
+import { SearchTextContext } from './searchtextprovider';
 
 class Street extends Component {
 
@@ -27,6 +28,16 @@ class Street extends Component {
                 </td>
             </tr>
             {this.props.street.members.map((member) => {
+
+                let searchText = "";
+                <SearchTextContext.Consumer>
+                  {(context) => {
+                     searchText =  context.state.searchText;
+                     console.log("searchText to use - " +  searchText);
+                   }
+                  }
+                </SearchTextContext.Consumer>
+
                 return (
                     <Member 
                         key={member.MemberId} 
