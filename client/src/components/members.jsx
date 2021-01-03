@@ -176,23 +176,33 @@ class Members extends Component {
       });
     });
 
+    // apply member ID and any filter
     let id = 1;
     streets.forEach((street) => {
-      let sortedmembers = [];
+      let filteredmembers = [];
       street.members.forEach((m) => {
         
         let clone = Object.assign({},m);
         clone.MemberId = id++; // each member has an number ID in sequence (this is what the masjid need)
 
         // apply the filter
-        if(m.Firstname.includes(searchText) || m.Lastname.includes(searchText)) {
-          sortedmembers.push(clone);
+        if (searchText && searchText.length > 0) {
+          if(m.Firstname.includes(searchText) || m.Lastname.includes(searchText) || m.Street.includes(searchText)) {
+            filteredmembers.push(clone);
+          }
+        } else { // no filter
+           filteredmembers.push(clone);
         }
       });
-      street.members = sortedmembers;
+      street.members = filteredmembers;
     });
 
-    return streets;
+    // remove any empty streets
+    return streets.filter((s) => {
+      return s.members.length > 0;
+    })
+
+    //return streets;
   }
 
     render () {

@@ -18,6 +18,12 @@ class Navigation extends Component {
         this.setState({toggle:!this.state.toggle})
     }
 
+    onKeyUp = (e) => {
+        if (e.charCode === 13) {
+          this.setState({ searchText: e.target.value });
+        }
+    }
+
     render () {
         return (
             <Navbar bg="light" expand="lg">
@@ -31,6 +37,9 @@ class Navigation extends Component {
                         <LinkContainer to="/members">
                             <Nav.Link>members</Nav.Link>
                         </LinkContainer>
+                        <LinkContainer to="/printout">
+                            <Nav.Link>printout</Nav.Link>
+                        </LinkContainer>
                         <LinkContainer to="/logout">
                             <Nav.Link href="/logout">logout</Nav.Link>
                         </LinkContainer>
@@ -38,6 +47,7 @@ class Navigation extends Component {
                     <Form inline>
                         <FormControl type="text" placeholder="search" className="mr-sm-2" 
                             onChange={e => this.setState({ searchText: e.target.value})}    
+                            onKeyPress={this.onKeyUp}
                         />
                         <SearchTextContext.Consumer>
                             {(context) => (
