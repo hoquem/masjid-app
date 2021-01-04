@@ -21,11 +21,10 @@ class Members extends Component {
 
   async componentDidMount() {
     try {
-      console.log(this.props);
       const res = await axios.get('/members');
       this.setState({members: res.data});
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -64,7 +63,7 @@ class Members extends Component {
       await axios.put('members/' + m._id, m);
       // TODO: update with the member details returned from server? 
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -81,7 +80,7 @@ class Members extends Component {
         this.setState({members: this.state.members});
       } 
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -105,7 +104,7 @@ class Members extends Component {
 
       this.hideMemberEditDialog();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -134,24 +133,24 @@ class Members extends Component {
 
 
   splitStringOnLastWord = (str) => {
-    const i = str.lastIndexOf(" ");
+    const i = str.trim().lastIndexOf(" "); 
     if(i === -1) {
       return {
-        frontStr:  "",
-        lastWord: str.trim() 
+        minusLastWord:  "",
+        lastWord: str.trim()
       }
     } else {
-      const frontStr = str.slice(0, i);
+      const minusLastWord = str.slice(0, i);
       const lastWord = str.slice(i, str.length);
 
       return {
-        frontStr: frontStr.trim(),
+        minusLastWord: minusLastWord.trim(),
         lastWord: lastWord.trim()
       }
 
     }
   }
-
+  
   compareHouseNumbers = (a, b) => {
     // 1. 1 STREET
     // 2. 1A STREET 
@@ -163,10 +162,9 @@ class Members extends Component {
 
     const aBuilding = aSplit.lastWord;
     const bBuilding = bSplit.lastWord;
-    const aUnit = aSplit.frontStr;
-    const bUnit = bSplit.frontStr;
+    const aUnit = aSplit.minusLastWord;
+    const bUnit = bSplit.minusLastWord;
 
-    console.log(`aUnit: ${aUnit} aBuilding: ${aBuilding} bUnit: ${bUnit} bUilding: ${bBuilding}`);
 
     const reA = /[^a-zA-Z]/g;
     const reN = /[^0-9]/g;
@@ -181,14 +179,28 @@ class Members extends Component {
 
     let retval = 0
     if (aN === bN) {
-      retval = aA.localeCompare(bA);
+      if (aA.length === 0) {
+        if (bA.length === 0) { 
+          retval = 0;
+        } else {
+          retval = -1;
+        }
+      } else {
+        retval = aA.localeCompare(bA);
+      }
     } else {
       retval = aN === bN ? 0 : aN > bN ? 1 : -1;
     }
 
     // compare the unit address of building is the same
     if(retval === 0 ) {
-      if(aUnit.length > 0) {
+      if(aUnit.length === 0) {
+        if (bUnit.length === 0) {
+          retval = 0;
+        } else {
+          retval = -1;
+        }
+      } else {
         retval = aUnit.localeCompare(bUnit);
       }
     }
@@ -196,7 +208,7 @@ class Members extends Component {
     return retval;
   }  
 
-  // Precendce...
+  // Precendence...
   // street alphabetical
   // lower house number
   // lastname alphabetical
@@ -227,7 +239,7 @@ class Members extends Component {
   // Order the members of a same houehold alphatically
   // Remove any streets which wont be displayed becaue of filter
   getStreets = (searchText) => {
-    // sort all the members (can be done after load if order is maintained when new member is added)
+    // sort all the members (can be done once after load if order is maintained when new member is added)
     this.state.members.sort((a,b) => {
       //return a.Street.localeCompare(b.Street);
       return this.compareMembers(a, b);
@@ -246,11 +258,6 @@ class Members extends Component {
         }
       });
 
-      //const re = /^\d+\w*\s*(?:[\-\/]?\s*)?\d*\s*\d+\/?\s*\d*\s*/;
-      //const re = /^\d+\w*\s*(?:[-/]?\s*)?\d*\s*\d+\/?\s*\d*\s*/;
-      //const output = m.HouseNo.match(re);
-      //console.log(output);
-                            
       // create the street entry if required
  	    if(!street) {
         street = {
@@ -259,24 +266,7 @@ class Members extends Component {
         streets.push(street);
       }
 
-      // filter
-      //if(searchText && searchText.length > 0) {
-      //  if(m.Firstname.includes(searchText) || m.Lastname.includes(searchText)) {
-          street.members.push(m); 
-      //  }
-      //}
-    });
-
-    // sort the houses
-    streets.forEach((street) => {
-
-      street.members.sort((a, b) => {
-        const x = a.HouseNo;
-        const y = b.HouseNo;
-          if (x < y) {return -1;}
-          if (x > y) {return 1;}
-        return 0;
-      });
+      street.members.push(m); 
     });
 
     // apply member ID and any filter
@@ -304,8 +294,6 @@ class Members extends Component {
     return streets.filter((s) => {
       return s.members.length > 0;
     })
-
-    //return streets;
   }
 
     render () {

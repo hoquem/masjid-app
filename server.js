@@ -19,7 +19,11 @@ dotevn.config({path: './config/config.env'});
 // Passport config
 require('./config/passport')(passport);
 
-connectDB();
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
+    connectDB();
+} else {
+    connectDB('DEV');
+}
 
 // Create a new express application named 'app'
 const app = express();

@@ -13,13 +13,13 @@ router.get('/', ensureAuth, async (req, res) => {
     try {
         const members = await Member.find({})
             .populate('user')
-            .sort({})
+            .sort('Street')
             .lean();
 
         return res.send(members);            
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         // return server error
         return res.status(500);
     }
@@ -39,7 +39,7 @@ router.get('/:id', ensureAuth, async (req, res) => {
         return res.send(member);
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         // return server error
         return res.status(500);
     }
@@ -65,7 +65,7 @@ router.post('/', ensureAuth, async (req, res) => {
         }
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         // return server error
         return res.status(500);
     }
@@ -91,7 +91,7 @@ router.put('/:id', ensureAuth, async (req, res) => {
         return res.send(member);
         
     } catch (error) {
-        console.log(error);
+        console.error(error);
         // return server error
         return res.status(500);
     }
@@ -112,7 +112,7 @@ router.delete('/:id', ensureAuth, async (req, res) => {
         return res.send(member);
         
     } catch (error) {
-        console.log(error);
+        console.error(error);
         // return server error
         return res.status(500);
     }
