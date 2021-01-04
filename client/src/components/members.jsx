@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
+//import _ from 'lodash';
 
 import Street from './street';
 import MemberEdit from './memberedit';
@@ -131,12 +132,108 @@ class Members extends Component {
       }, this.showMemberEditDialog);
   }
 
-  getStreets (searchText) {
-    // group members into the streets
+
+  splitStringOnLastWord = (str) => {
+    const i = str.lastIndexOf(" ");
+    if(i === -1) {
+      return {
+        frontStr:  "",
+        lastWord: str.trim() 
+      }
+    } else {
+      const frontStr = str.slice(0, i);
+      const lastWord = str.slice(i, str.length);
+
+      return {
+        frontStr: frontStr.trim(),
+        lastWord: lastWord.trim()
+      }
+
+    }
+  }
+
+  compareHouseNumbers = (a, b) => {
+    // 1. 1 STREET
+    // 2. 1A STREET 
+    // 3. FLAT A 7 STREET
+    //
+
+    const aSplit = this.splitStringOnLastWord(a.toString()); 
+    const bSplit = this.splitStringOnLastWord(b.toString()); 
+
+    const aBuilding = aSplit.lastWord;
+    const bBuilding = bSplit.lastWord;
+    const aUnit = aSplit.frontStr;
+    const bUnit = bSplit.frontStr;
+
+    console.log(`aUnit: ${aUnit} aBuilding: ${aBuilding} bUnit: ${bUnit} bUilding: ${bBuilding}`);
+
+    const reA = /[^a-zA-Z]/g;
+    const reN = /[^0-9]/g;
+
+    const astr = aBuilding.toString();
+    const bstr = bBuilding.toString();
+
+    const aA = astr.replace(reA, "");
+    const bA = bstr.replace(reA, "");
+    const aN = parseInt(astr.replace(reN, ""), 10);
+    const bN = parseInt(bstr.replace(reN, ""), 10);
+
+    let retval = 0
+    if (aN === bN) {
+      retval = aA.localeCompare(bA);
+    } else {
+      retval = aN === bN ? 0 : aN > bN ? 1 : -1;
+    }
+
+    // compare the unit address of building is the same
+    if(retval === 0 ) {
+      if(aUnit.length > 0) {
+        retval = aUnit.localeCompare(bUnit);
+      }
+    }
+
+    return retval;
+  }  
+
+  // Precendce...
+  // street alphabetical
+  // lower house number
+  // lastname alphabetical
+  // firstname alphabetical
+  compareMembers = (a, b) => {
+    let result = 0;
+    result = a.Street.localeCompare(b.Street);
+
+    if(result === 0) {
+      result = this.compareHouseNumbers(a.HouseNo, b.HouseNo);
+    }
+
+    if(result === 0) {
+      result = a.Lastname.localeCompare(b.Lastname);
+    }
+
+    if(result === 0) {
+      result = a.Firstname.localeCompare(b.Firstname);
+    }
+
+    return result;
+  }
+
+  //////////////////////
+  // Get an array of all the streets with the members in the street contained in the object
+  // Order the streets alphabetically
+  // Order the members in the street with increamenting address
+  // Order the members of a same houehold alphatically
+  // Remove any streets which wont be displayed becaue of filter
+  getStreets = (searchText) => {
+    // sort all the members (can be done after load if order is maintained when new member is added)
     this.state.members.sort((a,b) => {
-      return a.Street.localeCompare(b.Street);
+      //return a.Street.localeCompare(b.Street);
+      return this.compareMembers(a, b);
     });
 
+    // group members into the streets
     const streets = [];
     this.state.members.forEach((m) => {
       m.Street = m.Street.toUpperCase();
@@ -148,6 +245,11 @@ class Members extends Component {
           return false;
         }
       });
+
+      //const re = /^\d+\w*\s*(?:[\-\/]?\s*)?\d*\s*\d+\/?\s*\d*\s*/;
+      //const re = /^\d+\w*\s*(?:[-/]?\s*)?\d*\s*\d+\/?\s*\d*\s*/;
+      //const output = m.HouseNo.match(re);
+      //console.log(output);
                             
       // create the street entry if required
  	    if(!street) {
@@ -167,9 +269,10 @@ class Members extends Component {
 
     // sort the houses
     streets.forEach((street) => {
+
       street.members.sort((a, b) => {
-        var x = a.HouseNo;
-        var y = b.HouseNo;
+        const x = a.HouseNo;
+        const y = b.HouseNo;
           if (x < y) {return -1;}
           if (x > y) {return 1;}
         return 0;
