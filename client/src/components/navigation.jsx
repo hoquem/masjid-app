@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import {LinkContainer} from 'react-router-bootstrap';
 import FormControl from 'react-bootstrap/FormControl';
 import {SearchTextContext} from './searchtextprovider';
+//import { Container } from 'react-bootstrap/lib/Tab';
 
 class Navigation extends Component {
     state = {
@@ -26,7 +27,7 @@ class Navigation extends Component {
 
     render () {
         return (
-            <Navbar bg="light" expand="lg">
+            <Navbar bg="light" expand="lg" sticky="top">
                 <Navbar.Brand href="/">Masjid Membership</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
