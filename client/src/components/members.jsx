@@ -1,5 +1,4 @@
 // Navigation.jsx
-//import { Link } from "react-router-dom";
 import React, { Component } from 'react';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
@@ -91,7 +90,7 @@ class Members extends Component {
       } else {
         // find the member to update
         const member = this.state.members.find(m => m._id === this.state.tempmember._id);
-        if( member ) {
+        if(member) {
           member.Firstname = m.Firstname;
           member.Lastname = m.Lastname;
           member.HouseNo = m.HouseNo;
@@ -109,7 +108,10 @@ class Members extends Component {
   }
 
   removeMember = (m) => {
-    this.saveDelete(m);
+    const response = window.confirm(`Are you sure you want to delete ${m.Firstname} ${m.Lastname}`);
+    if(response) {
+      this.saveDelete(m);
+    }
   }
   
   handleAddNewMemberButtonClick = (e) => {
@@ -240,14 +242,14 @@ class Members extends Component {
   // Remove any streets which wont be displayed becaue of filter
   getStreets = (searchText) => {
     // sort all the members (can be done once after load if order is maintained when new member is added)
-    this.state.members.sort((a,b) => {
+    const sortedmembers = this.state.members.sort((a,b) => {
       //return a.Street.localeCompare(b.Street);
       return this.compareMembers(a, b);
     });
 
     // group members into the streets
     const streets = [];
-    this.state.members.forEach((m) => {
+    sortedmembers.forEach((m) => {
       m.Street = m.Street.toUpperCase();
       // find the street object with the same name as the member street name
       let street = streets.find((s) => { 
@@ -298,7 +300,8 @@ class Members extends Component {
 
     render () {
       let i = this.state.members.length + 1000;
-      const streets = this.getStreets(this.context.state.searchText.toLocaleUpperCase());
+      const streets = this.getStreets(this.context.state.searchText.toLocaleUpperCase()
+      );
       const { tempmember } = this.state;
 
       let component;  
@@ -313,6 +316,11 @@ class Members extends Component {
           />
 
           <Table borderless hover>
+          {/*
+          <SearchTextContext.Consumer>
+            {(context) => ( context.setStreets(streets))}
+          </SearchTextContext.Consumer>
+          */}
           <tbody>
             {streets.map((street) => {
               return (
@@ -345,8 +353,9 @@ class Members extends Component {
 
       return component;
     }
+
+    static contextType = SearchTextContext;
 }
 
-Members.contextType = SearchTextContext;
   
 export default Members;

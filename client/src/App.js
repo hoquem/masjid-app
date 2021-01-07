@@ -6,6 +6,7 @@ import './App.css';
 
 import Navigation from './components/navigation';
 import Members from './components/members';
+import PrintOut from './components/printout';
 import SearchTextProvider from './components/searchtextprovider';
 //import Dashboard from './components/dashboard';
 
@@ -28,6 +29,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/members" component={Members} />
+          <Route exact path="/PrintOut" component={PrintOut} />
         </Switch>
         </SearchTextProvider>
       </Router>
