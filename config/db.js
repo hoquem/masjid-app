@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const connectDB = async function (ENV) {
     try {
         let MONGO_URI = process.env.MONGO_URI; 
-        if(ENV = 'DEV') {
-            MONGO_URI = process.env.MONGO_URI_DEV;
-        } 
+        //if(ENV = 'DEV') {
+        //    MONGO_URI = process.env.MONGO_URI_DEV;
+        //} 
             
         const conn = await mongoose.connect(MONGO_URI, {
             useNewUrlParser: true,

@@ -27,7 +27,7 @@ export const compareMembers = function (a, b) {
     result = a.Street.localeCompare(b.Street);
 
     if(result === 0) {
-      result = this.compareHouseNumbers(a.HouseNo, b.HouseNo);
+      result = compareHouseNumbers(a.HouseNo, b.HouseNo);
     }
 
     if(result === 0) {
@@ -46,7 +46,6 @@ export const compareHouseNumbers = function (a, b) {
     // 2. 1A STREET 
     // 3. FLAT A 7 STREET
     //
-
     const aSplit = splitStringOnLastWord(a.toString()); 
     const bSplit = splitStringOnLastWord(b.toString()); 
 

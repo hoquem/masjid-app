@@ -38,7 +38,11 @@ app.use(morgan('dev', {
     skip: function (req, res) { return res.statusCode < 400 }
 }));
    
-/*
+const logsDir = "logs";
+if (!fs.existsSync(logsDir)){
+    fs.mkdirSync(logsDir);
+}
+
 // log all requests to access.log
 app.use(morgan('common', {
     stream: fs.createWriteStream(path.join(__dirname, "logs", 'access.log'), { flags: 'a' })
@@ -53,7 +57,6 @@ morganBody(app, {
     noColors: true,
     stream: log,
   });
-*/
 
 // Configure the bodyParser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -69,14 +72,12 @@ app.use(methodOverride(function(req, res) {
 }));
 
 // Sessions
-/*
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
-*/
 
 // Passport middleware
 //app.use(passport.initialize());
@@ -95,14 +96,9 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
-//app.use('/', require('./routes/index'));
-//app.use('/auth', require('./routes/auth'));
+app.use('/auth', require('./routes/auth'));
 app.use('/members', require('./routes/members'));
 //app.use('/newmembers', require('./routes/newmembers'));
-//app.use('/api/v1', require('./routes/routes'));
-//app.get('/members', function (req, res) {
-//    res.send('Hello World!')
-//  });
 
 // This middleware informs the express application to serve our compiled React files
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
