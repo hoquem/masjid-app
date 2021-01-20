@@ -33,8 +33,8 @@ class Navigation extends Component {
                         <Nav.Link href="/">home</Nav.Link>
                         <Nav.Link href="/members">members</Nav.Link>
                         <Nav.Link href="/printout">printout</Nav.Link>
-                        <Nav.Link href="/logout">logout</Nav.Link>
                         <Nav.Link href="/login">login</Nav.Link>
+                        <Nav.Link href="/logout">logout</Nav.Link>
                     </Nav>
                     <Form inline>
                         <FormControl type="text" placeholder="search" className="mr-sm-2" 
