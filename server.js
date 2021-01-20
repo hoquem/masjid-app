@@ -3,7 +3,7 @@ const fs = require('fs');
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-const passport = require('passport');
+//const passport = require('passport');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const dotevn = require('dotenv');
@@ -17,7 +17,7 @@ const cors = require('cors');
 dotevn.config({path: './config/config.env'});
 
 // Passport config
-require('./config/passport')(passport);
+//require('./config/passport')(passport);
 
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
     connectDB();
@@ -58,6 +58,9 @@ morganBody(app, {
     stream: log,
   });
 
+// Configure the CORs middleware
+app.use(cors());
+
 // Configure the bodyParser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -88,9 +91,6 @@ app.use(function(req, res, next) {
     res.locals.user = req.user | null;
     next();
 });
-
-// Configure the CORs middleware
-app.use(cors());
 
 // Static
 app.use(express.static(path.join(__dirname, "public")));

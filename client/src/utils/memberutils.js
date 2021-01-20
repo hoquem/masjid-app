@@ -103,7 +103,6 @@ export const compareHouseNumbers = function (a, b) {
   // Order the members of a same houehold alphatically
   // Remove any streets which wont be displayed becaue of filter
   export const getStreets = function (members, searchText) {
-    console.log(`getStreets ${members} ${searchText}`);
     // sort all the members (can be done once after load if order is maintained when new member is added)
     const sortedmembers = members.sort((a,b) => {
       //return a.Street.localeCompare(b.Street);

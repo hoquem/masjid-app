@@ -7,8 +7,8 @@ import './App.css';
 import Navigation from './components/navigation';
 import Members from './components/members';
 import PrintOut from './components/printout';
+import Login from './components/login';
 import SearchTextProvider from './components/searchtextprovider';
-//import Dashboard from './components/dashboard';
 
 const Home = () => {
   return (
@@ -18,11 +18,24 @@ const Home = () => {
   );
 };
 
+/*
+const withAuth = (Component) => {
+  const AuthRoute = () => {
+    const isAuth = !!localStorage.getItem("token");
+    if (isAuth) {
+      return <Component />;
+    } else {
+      return <Redirect to="/login" />;
+    }
+  };
+
+  return AuthRoute;
+};
+*/
 
 class App extends Component {
   render() {
     return (
-      //<Dashboard/>
       <Router>
         <SearchTextProvider>
         <Navigation />
@@ -30,6 +43,7 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/members" component={Members} />
           <Route exact path="/PrintOut" component={PrintOut} />
+          <Route exact path="/login" component={Login} />
         </Switch>
         </SearchTextProvider>
       </Router>
@@ -38,3 +52,4 @@ class App extends Component {
 }
 
 export default App;
+

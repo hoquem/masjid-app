@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
 import axios from 'axios';
 //import _ from 'lodash';
 
@@ -16,15 +17,17 @@ class Members extends Component {
       modalShow: false,
       tempmember:  {Firstname: "FIRSTNAME", Lastname: "LASTNAME", HouseNo: "1", Street: "STREET 1", Town: "LUTON"},
       isAddNewMember: false,
-      members: []
+      members: [],
+      error: ""
     };
 
   async componentDidMount() {
     try {
       const res = await axios.get('/members');
-      this.setState({members: res.data});
-    } catch (error) {
-      console.error(error);
+      this.setState({members: res.data, error: ""});
+    } catch (e) {
+      this.setState({error: e.message});
+      console.error(e);
     }
   }
 
@@ -136,6 +139,15 @@ class Members extends Component {
 
 
   render () {
+    if(this.state.error.length > 0) {
+      const variant = 'danger'
+      return (
+        <Alert variant={variant}>
+          {this.state.error}
+        </Alert>
+      );
+    }
+
       let i = this.state.members.length + 1000;
       const streets = getStreets(this.state.members, 
         this.context.state.searchText.toLocaleUpperCase()
