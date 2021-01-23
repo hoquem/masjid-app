@@ -16,7 +16,6 @@ function Login() {
  
   const handleLoginSuccess = async (response) => {
     try {
-        console.log("Login Success ", response);
         setUser(response.profileObj);
          
         setLoading();
@@ -35,7 +34,7 @@ function Login() {
 
         localStorage.setItem("USER",res.data);
 
-        history.push("/");
+        //history.push("/");
         // store returned user somehow
     } catch (error) {
         console.log(error);

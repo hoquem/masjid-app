@@ -5,33 +5,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 import Navigation from './components/navigation';
+import Home from './components/home';
 import Members from './components/members';
 import PrintOut from './components/printout';
 import Login from './components/login';
 import SearchTextProvider from './components/searchtextprovider';
-
-const Home = () => {
-  return (
-    <div>
-      <h1>Welcome to the Bury Park Masjid Membership App</h1>
-    </div>
-  );
-};
-
-/*
-const withAuth = (Component) => {
-  const AuthRoute = () => {
-    const isAuth = !!localStorage.getItem("token");
-    if (isAuth) {
-      return <Component />;
-    } else {
-      return <Redirect to="/login" />;
-    }
-  };
-
-  return AuthRoute;
-};
-*/
 
 class App extends Component {
   render() {
