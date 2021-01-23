@@ -25,6 +25,11 @@ class Navigation extends Component {
     }
 
     render () {
+
+
+        const user = localStorage.getItem("USER");
+        const loginStr = user ? "logout" : "login";
+
         return (
             <Navbar bg="light" expand="lg" sticky="top">
                 <Navbar.Brand href="/">Masjid Membership</Navbar.Brand>
@@ -34,7 +39,7 @@ class Navigation extends Component {
                         <LinkContainer to="/"><Nav.Link>home</Nav.Link></LinkContainer>  
                         <LinkContainer to="/members"><Nav.Link href="/members">members</Nav.Link></LinkContainer>  
                         <LinkContainer to="/printout"><Nav.Link href="/printout">printout</Nav.Link></LinkContainer>  
-                        <LinkContainer to="/login"><Nav.Link href="/login">login</Nav.Link></LinkContainer>  
+                        <LinkContainer to="/login"><Nav.Link href="/login">{loginStr}</Nav.Link></LinkContainer>  
                     </Nav>
                     <Form inline>
                         <FormControl type="text" placeholder="search" className="mr-sm-2" 
