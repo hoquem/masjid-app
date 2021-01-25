@@ -13,13 +13,13 @@ import { getStreets } from '../utils/memberutils';
 
 class Members extends Component {
 
-    state = {
-      modalShow: false,
-      tempmember:  {Firstname: "FIRSTNAME", Lastname: "LASTNAME", HouseNo: "1", Street: "STREET 1", Town: "LUTON"},
-      isAddNewMember: false,
-      members: [],
-      error: ""
-    };
+  state = {
+    modalShow: false,
+    tempmember:  {Firstname: "FIRSTNAME", Lastname: "LASTNAME", HouseNo: "1", Street: "STREET 1", Town: "LUTON"},
+    isAddNewMember: false,
+    members: [],
+    error: ""
+  };
 
   async componentDidMount() {
     try {

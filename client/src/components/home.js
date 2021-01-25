@@ -21,17 +21,17 @@ class Home extends Component {
       }
 
     render()  {
+        const displayName = localStorage.user_displayName;
+
         return (
             <Jumbotron fluid>
                 <Container>
-                    <h1>Welcome to the Bury Park Masjid Membership App</h1>
+                    <h1>Welcome to the Bury Park Masjid Membership App {displayName}</h1>
                     <p>
-                        This is a modified jumbotron that occupies the entire horizontal space of
-                        its parent.
                     </p>
                     <br></br>
                     <p>
-                        For information about getting access to this application please contact Mahmudul Hoque - m.hoque@gmail.com
+                        For information about getting access to this application please contact <a href="mailto:m.hoque@gmail.com">Mahmudul Hoque</a>
                     </p>
                 </Container>
             </Jumbotron>

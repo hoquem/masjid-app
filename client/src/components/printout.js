@@ -121,6 +121,11 @@ class PrintOut extends Component {
               ],
               body: body,
               theme: 'grid',
+              columnStyles: {
+                0: {cellWidth: 15},
+                1: {cellWidth: 90},
+                2: {cellWidth: 80},
+              }
             });
           } else {
             doc.autoTable({
@@ -135,6 +140,11 @@ class PrintOut extends Component {
               ],
               body: body,
               theme: 'grid',
+              columnStyles: {
+                0: {cellWidth: 15},
+                1: {cellWidth: 90},
+                2: {cellWidth: 80},
+              }
             });
           }
 

@@ -25,10 +25,8 @@ class Navigation extends Component {
     }
 
     render () {
-
-        const email = localStorage.email;
+        const email = localStorage.user_email;
         const loginStr = email ? "logout" : "login";
-        console.log(email); 
 
         return (
             <Navbar bg="light" expand="lg" sticky="top">

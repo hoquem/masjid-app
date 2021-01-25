@@ -16,7 +16,6 @@ function Login() {
  
   const handleLoginSuccess = async (response) => {
     try {
-        console.log("login Success ", response);
         setUser(response.profileObj);
          
         setLoading();
@@ -33,8 +32,8 @@ function Login() {
 
         const res = await axios.post('/auth/google', userData);
 
-        localStorage.displayName = res.data.displayName;
-        localStorage.email = res.email;
+        localStorage.user_displayName = res.data.displayName;
+        localStorage.user_email = res.email;
 
         //history.push("/");
         // store returned user somehow
@@ -48,11 +47,11 @@ function Login() {
     setLoading();
   }
  
-  const handleLogoutSuccess = async (response) => {
+  const handleLogoutSuccess = async () => {
     try {
-      await axios.delete('/auth/logout');
-      console.log("Logout Success ", response);
       setUser(null);
+      localStorage.removeItem("user_displayName");
+      await axios.delete('/auth/logout');
     } catch (error) {
       console.log(error);
     }
