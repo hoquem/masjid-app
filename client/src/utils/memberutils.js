@@ -125,12 +125,13 @@ export const compareHouseNumbers = function (a, b) {
       // create the street entry if required
  	    if(!street) {
         street = {
-          name: m.Street, members: []
+          name: m.Street, members: [], count: 0
         };
         streets.push(street);
       }
 
       street.members.push(m); 
+      street.count = street.count + 1; // increament the count
     });
 
     // apply member ID and any filter

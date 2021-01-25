@@ -13,6 +13,10 @@ import SearchTextProvider from './components/searchtextprovider';
 
 class App extends Component {
   render() {
+
+    const email = localStorage.email;
+    console.log(email);
+
     return (
       <Router>
         <SearchTextProvider>

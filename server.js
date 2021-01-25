@@ -44,7 +44,7 @@ if (!fs.existsSync(logsDir)){
 }
 
 // log all requests to access.log
-app.use(morgan('common', {
+/*app.use(morgan('common', {
     stream: fs.createWriteStream(path.join(__dirname, "logs", 'access.log'), { flags: 'a' })
 }));
 
@@ -57,6 +57,7 @@ morganBody(app, {
     noColors: true,
     stream: log,
   });
+*/
 
 // Configure the CORs middleware
 app.use(cors());
