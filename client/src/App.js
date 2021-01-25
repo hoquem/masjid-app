@@ -13,6 +13,7 @@ import SearchTextProvider from './components/searchtextprovider';
 
 class App extends Component {
   render() {
+
     return (
       <Router>
         <SearchTextProvider>

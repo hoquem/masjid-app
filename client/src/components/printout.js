@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
 import jsPDF from 'jspdf'
 import 'jspdf-autotable'
 import axios from 'axios';
@@ -8,7 +10,10 @@ import axios from 'axios';
 import { getStreets } from '../utils/memberutils'
 
 class PrintOut extends Component {
-    state = {};
+    state = {
+      title: "Bury Park Masjid Membership Roll",
+      date: new Date().getFullYear()
+    };
 
     static lineHeight = 8;
     static leftMargin = 20;
@@ -26,8 +31,28 @@ class PrintOut extends Component {
     render() { 
         return ( 
             <React.Fragment>
-                <Button onClick={this.handleButtonClick}>Print to PDF</Button> 
-            </React.Fragment>
+            <br/>
+            <Container>
+              <Form.Group controlId="formTitle">
+                <Form.Label>Title</Form.Label>
+                <Form.Control placeholder="Enter title of the report" 
+                  onChange={e => this.setState({ title: e.target.value })}
+                  defaultValue={this.state.title}
+                />
+              </Form.Group>
+
+            <Form.Group controlId="formDate">
+              <Form.Label>Date</Form.Label>
+                <Form.Control placeholder="Date" 
+                  onChange={e => this.setState({ date: e.target.value })}
+                  defaultValue={this.state.date}  
+                />
+            </Form.Group>
+            <Button variant="primary" type="submit" onClick={this.handleButtonClick}>
+              Print to PDF
+            </Button>
+          </Container>
+          </React.Fragment>
         );
     }
 
@@ -46,8 +71,8 @@ class PrintOut extends Component {
     * @param {string} streets.name 
     */
     printTitleAndSubTitle = (doc, streets) => {
-        const title = "Bury Park Masjid Membership Roll";
-        const date = "May 2021";
+        const title = this.state.title.toString();
+        const date = this.state.date.toString();
 
         let activeFontSize = doc.getFontSize();
         let lineHeightFactor = doc.getLineHeightFactor();
@@ -96,6 +121,11 @@ class PrintOut extends Component {
               ],
               body: body,
               theme: 'grid',
+              columnStyles: {
+                0: {cellWidth: 15},
+                1: {cellWidth: 90},
+                2: {cellWidth: 80},
+              }
             });
           } else {
             doc.autoTable({
@@ -110,6 +140,11 @@ class PrintOut extends Component {
               ],
               body: body,
               theme: 'grid',
+              columnStyles: {
+                0: {cellWidth: 15},
+                1: {cellWidth: 90},
+                2: {cellWidth: 80},
+              }
             });
           }
 

@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import axios from 'axios';
-import {useHistory} from 'react-router-dom';
+//import {useHistory} from 'react-router-dom';
 
 const clientId = "677448856451-tf822n4ctpqtrro55q55j400j6iv3gft.apps.googleusercontent.com";
 
@@ -12,7 +12,7 @@ function Login() {
   const [loading, setLoading] = useState('Loading...');
   const [user, setUser] = useState(null);
 
-  const history = useHistory();
+  //const history = useHistory();
  
   const handleLoginSuccess = async (response) => {
     try {
@@ -32,7 +32,8 @@ function Login() {
 
         const res = await axios.post('/auth/google', userData);
 
-        localStorage.setItem("USER",res.data);
+        localStorage.user_displayName = res.data.displayName;
+        localStorage.user_email = res.email;
 
         //history.push("/");
         // store returned user somehow
@@ -46,11 +47,11 @@ function Login() {
     setLoading();
   }
  
-  const handleLogoutSuccess = async (response) => {
+  const handleLogoutSuccess = async () => {
     try {
-      await axios.delete('/auth/logout');
-      console.log("Logout Success ", response);
       setUser(null);
+      localStorage.removeItem("user_displayName");
+      await axios.delete('/auth/logout');
     } catch (error) {
       console.log(error);
     }
@@ -70,6 +71,7 @@ function Login() {
  
   return (
     <Container className="col-lg-4 col-md-4 col-sm-4 justify-content-center">
+    <br/>
       {user ? 
         <Card>
         <Card.Header>Welcome {user.name}!</Card.Header>

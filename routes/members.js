@@ -3,7 +3,6 @@ const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 const router = express.Router();
 const {ensureAuth} = require('../middleware/auth');
-
 const Member = require('../models/Member');
 
 const ObjectID = mongodb.ObjectID;
@@ -95,7 +94,6 @@ router.put('/:id', ensureAuth, async (req, res) => {
         // return server error
         return res.status(500);
     }
-
 });
 
 // Delete a member
@@ -117,5 +115,31 @@ router.delete('/:id', ensureAuth, async (req, res) => {
         return res.status(500);
     }
 });
+
+// Member stats
+router.get('/stats', ensureAuth, async (req, res) => {
+    try {
+        const members = await Member.find({})
+            .populate('user')
+            .sort('Street')
+            .lean();
+
+        const stats = {
+            numberOfMembers: members.length,
+            numberOfStreets: 2,
+            mostPopularStreet: "dfdsfd",
+            newestMembers: "",
+            newestMemberAddTime: Date.now,
+            lastTimeListChanged: Date.now
+        }
+
+        res.status(200).send(stats);
+
+    } catch (error) {
+       console.error(error);
+       return res.status(500); 
+    }
+});
+
 
 module.exports = router; 
