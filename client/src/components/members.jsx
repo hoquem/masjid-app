@@ -1,10 +1,8 @@
-// Navigation.jsx
 import React, { Component } from 'react';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import axios from 'axios';
-//import _ from 'lodash';
 
 import Street from './street';
 import MemberEdit from './memberedit';
@@ -62,7 +60,6 @@ class Members extends Component {
 
   async saveUpdatedMember(m) {
     try {
-      //const res = await axios.put('members/' + m._id, m);
       await axios.put('members/' + m._id, m);
       // TODO: update with the member details returned from server? 
     } catch (error) {
@@ -74,7 +71,7 @@ class Members extends Component {
     try {
       const res = await axios.delete('members/' + m._id, m);
 
-      const index = this.state.members.findIndex(function(o){
+      const index = this.state.members.findIndex(function(o) {
         return o._id === res.data._id;
       });
 
@@ -90,6 +87,7 @@ class Members extends Component {
   handleMemberEditSave = (m) => {
     try {
       if (this.state.isAddNewMember) {
+        console.log("Save new member - ", m);
         this.saveNewMember(m);
       } else {
         // find the member to update
@@ -100,8 +98,9 @@ class Members extends Component {
           member.HouseNo = m.HouseNo;
           member.Street = m.Street;
           member.Town = m.Town;
+          console.log("Save update member - ", member);
           this.saveUpdatedMember(member);
-          this.setState({members: this.state.members});
+          this.setState({members: this.state.members}); // fetch from server instead
         }
       }
 
@@ -131,6 +130,7 @@ class Members extends Component {
   }
 
   updateMember = (m) => {
+    console.log("Update member - ", m);
     this.setState({ 
         tempmember: m,
         isAddNewMember: false
