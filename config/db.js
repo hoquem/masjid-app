@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const connectDB = async function (ENV) {
     try {
         let MONGO_URI = process.env.MONGO_URI; 
-        if(ENV = 'DEV') {
+        if(ENV == 'DEV') {
             MONGO_URI = process.env.MONGO_URI_DEV;
         } 
             
