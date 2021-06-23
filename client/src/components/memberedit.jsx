@@ -7,10 +7,6 @@ import FormControl from 'react-bootstrap/FormControl';
 
 class MemberEdit extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   handleSave = (e) => {
     this.props.onSave(this.props.member);
   }

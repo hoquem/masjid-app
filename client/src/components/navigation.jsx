@@ -10,18 +10,7 @@ import {SearchTextContext} from './searchtextprovider';
 
 class Navigation extends Component {
     state = {
-        toggle:false,
         searchText: ""
-    }
-
-    Toggle = () => {
-        this.setState({toggle:!this.state.toggle})
-    }
-
-    onKeyUp = (e) => {
-        if (e.charCode === 13) {
-          this.setState({ searchText: e.target.value });
-        }
     }
 
     render () {
@@ -39,17 +28,22 @@ class Navigation extends Component {
                         <LinkContainer to="/printout"><Nav.Link href="/printout">printout</Nav.Link></LinkContainer>  
                         <LinkContainer to="/login"><Nav.Link href="/login">{loginStr}</Nav.Link></LinkContainer>  
                     </Nav>
-                    <Form inline>
-                        <FormControl type="text" placeholder="search" className="mr-sm-2" 
-                            onChange={e => this.setState({ searchText: e.target.value})}    
-                            onKeyPress={this.onKeyUp}
-                        />
-                        <SearchTextContext.Consumer>
-                            {(context) => (
-                                <Button variant="outline-success" onClick={()=>{context.setSearchText(this.state.searchText)}}>search</Button>
-                            )}
-                        </SearchTextContext.Consumer>
-                    </Form>
+                    <SearchTextContext.Consumer>
+                        {(context) => (
+                        <Form inline>
+                            <FormControl type="text" placeholder="search" className="mr-sm-2" 
+                                onChange={e => this.setState({ searchText: e.target.value})}    
+                                onKeyPress={(e) => {
+                                    if (e.charCode === 13) {
+                                      e.preventDefault();
+                                      context.setSearchText(this.state.searchText);
+                                    }
+                                }}
+                            />
+                            <Button variant="outline-success" onClick={()=>{context.setSearchText(this.state.searchText)}}>search</Button>
+                        </Form>
+                        )}
+                    </SearchTextContext.Consumer>
                 </Navbar.Collapse>
             </Navbar>
         );
