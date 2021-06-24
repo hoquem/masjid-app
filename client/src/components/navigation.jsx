@@ -26,6 +26,7 @@ class Navigation extends Component {
                         <LinkContainer to="/"><Nav.Link>home</Nav.Link></LinkContainer>  
                         <LinkContainer to="/members"><Nav.Link href="/members">members</Nav.Link></LinkContainer>  
                         <LinkContainer to="/printout"><Nav.Link href="/printout">printout</Nav.Link></LinkContainer>  
+                        <LinkContainer to="/export"><Nav.Link href="/export">export</Nav.Link></LinkContainer>  
                         <LinkContainer to="/login"><Nav.Link href="/login">{loginStr}</Nav.Link></LinkContainer>  
                     </Nav>
                     <SearchTextContext.Consumer>

@@ -5,7 +5,6 @@ import Container from 'react-bootstrap/Container';
 import jsPDF from 'jspdf'
 import 'jspdf-autotable'
 import axios from 'axios';
-//import _ from 'lodash';
 
 import { getStreets } from '../utils/memberutils'
 
@@ -19,6 +18,7 @@ class PrintOut extends Component {
     static leftMargin = 20;
     static pageHeight = PrintOut.lineHeight * 20;
 
+    /*
     async componentDidMount() {
         try {
             const res = await axios.get('/members');
@@ -26,11 +26,11 @@ class PrintOut extends Component {
           } catch (error) {
             console.error(error);
           }
-    }
+    }*/
 
     render() { 
         return ( 
-            <React.Fragment>
+          <React.Fragment>
             <br/>
             <Container>
               <Form.Group controlId="formTitle">
@@ -148,11 +148,15 @@ class PrintOut extends Component {
             });
           }
 
-          return doc 
+          return doc;
     }
 
-    handleButtonClick = (e) => {
-        const streets = getStreets(this.state.members, "");
+    handleButtonClick = async (e) => {
+        e.preventDefault();
+        const res = await axios.get('/members');
+        const members = res.data;
+        //const streets = getStreets(this.state.members, "");
+        const streets = getStreets(members, "");
 
         const doc = new jsPDF();
         this.printTitleAndSubTitle(doc);
@@ -167,7 +171,7 @@ class PrintOut extends Component {
           }
         });
           
-        doc.save('bpjm-members.pdf')
+        doc.save('bpjm-members.pdf');
 
     }
 }

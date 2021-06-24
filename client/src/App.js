@@ -9,6 +9,7 @@ import Home from './components/home';
 import Members from './components/members';
 import PrintOut from './components/printout';
 import Login from './components/login';
+import ExportCSV from './components/exportcsv';
 import SearchTextProvider from './components/searchtextprovider';
 
 class App extends Component {
@@ -22,6 +23,7 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/members" component={Members} />
           <Route exact path="/PrintOut" component={PrintOut} />
+          <Route exact path="/export" component={ExportCSV} />
           <Route exact path="/login" component={Login} />
         </Switch>
         </SearchTextProvider>
