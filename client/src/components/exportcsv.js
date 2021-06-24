@@ -1,7 +1,6 @@
 
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container'
 import axios from 'axios';
 
@@ -25,7 +24,7 @@ class ExportCSV extends Component {
     }
 
     memberToCSV = (member) => {
-        return member.Firstname + "," + member.Lastname + "," + member.HouseNo + "," + member.Street;
+        return member.memberId + "," + member.Firstname + "," + member.Lastname + "," + member.HouseNo + "," + member.Street;
     }
 
     streetToCSV = (csv, street) => {
@@ -59,7 +58,7 @@ class ExportCSV extends Component {
         const members = res.data;
         const streets = getStreets(members, "");
 
-    	var membersCSV = "";
+    	var membersCSV = "ID,Firstname,Lastname,House,Street";
 
         streets.forEach((s) => {
             membersCSV = this.streetToCSV(membersCSV, s);
@@ -67,12 +66,6 @@ class ExportCSV extends Component {
 
         console.log(membersCSV);
         this.saveToFile(membersCSV);
-        //fs.saveAs(membersCSV, "bpjm-members.csv")
-        /*fs.writeFile('members.csv', membersCSV, (e) => {
-            console.log("Error writing CSV to file");
-            console.log(e);
-        });
-        */
     }
 }
 

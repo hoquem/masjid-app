@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
-import jsPDF from 'jspdf'
-import 'jspdf-autotable'
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import axios from 'axios';
 
-import { getStreets } from '../utils/memberutils'
+import { getStreets } from '../utils/memberutils';
 
 class PrintOut extends Component {
     state = {
@@ -14,19 +14,11 @@ class PrintOut extends Component {
       date: new Date().getFullYear()
     };
 
+    static doc;
+    static currentpage = 0;
     static lineHeight = 8;
     static leftMargin = 20;
     static pageHeight = PrintOut.lineHeight * 20;
-
-    /*
-    async componentDidMount() {
-        try {
-            const res = await axios.get('/members');
-            this.setState({members: res.data});
-          } catch (error) {
-            console.error(error);
-          }
-    }*/
 
     render() { 
         return ( 
@@ -87,6 +79,21 @@ class PrintOut extends Component {
         return doc;
     }
 
+
+    footer = (data) => {
+      if (PrintOut.currentpage < data.pageCount) {
+
+        PrintOut.doc.setFontSize(10);
+
+        var str = "Page " + data.pageCount;
+        //str = str + " of " + totalPagesExp;
+
+
+        PrintOut.doc.text(str, data.settings.margin.left, PrintOut.doc.internal.pageSize.height - 15);
+        PrintOut.currentpage = data.pageCount;
+      }
+  }
+
     /**
     * @param {jsPDF} doc 
     * @param {Object} street 
@@ -119,6 +126,7 @@ class PrintOut extends Component {
                   },
                 ],
               ],
+              afterPageContent: this.footer,
               body: body,
               theme: 'grid',
               columnStyles: {
@@ -138,6 +146,7 @@ class PrintOut extends Component {
                   },
                 ],
               ],
+              afterPageContent: this.footer,
               body: body,
               theme: 'grid',
               columnStyles: {
@@ -153,25 +162,28 @@ class PrintOut extends Component {
 
     handleButtonClick = async (e) => {
         e.preventDefault();
+
+        this.currentpage = 0;
+
         const res = await axios.get('/members');
         const members = res.data;
-        //const streets = getStreets(this.state.members, "");
         const streets = getStreets(members, "");
 
-        const doc = new jsPDF();
-        this.printTitleAndSubTitle(doc);
+        //const doc = new jsPDF();
+        PrintOut.doc = new jsPDF();
+        this.printTitleAndSubTitle(PrintOut.doc);
 
         let first_iteration = true;
         streets.forEach((s) => {
           if (first_iteration) {
-            this.printStreet(doc, s, 30);
+            this.printStreet(PrintOut.doc, s, 30);
             first_iteration = false;
           } else {
-            this.printStreet(doc, s);
+            this.printStreet(PrintOut.doc, s);
           }
         });
           
-        doc.save('bpjm-members.pdf');
+        PrintOut.doc.save('bpjm-members.pdf');
 
     }
 }

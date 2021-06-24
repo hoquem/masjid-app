@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 export const SearchTextContext = React.createContext("");  //exporting context object
+
 class SearchTextProvider extends Component {
     state = {searchText: ""}
 
