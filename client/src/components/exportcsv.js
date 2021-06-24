@@ -24,7 +24,7 @@ class ExportCSV extends Component {
     }
 
     memberToCSV = (member) => {
-        return member.memberId + "," + member.Firstname + "," + member.Lastname + "," + member.HouseNo + "," + member.Street;
+        return member.MemberId + "," + member.Firstname + "," + member.Lastname + "," + member.HouseNo + "," + member.Street;
     }
 
     streetToCSV = (csv, street) => {
@@ -58,7 +58,7 @@ class ExportCSV extends Component {
         const members = res.data;
         const streets = getStreets(members, "");
 
-    	var membersCSV = "ID,Firstname,Lastname,House,Street";
+    	var membersCSV = "ID,Firstname,Lastname,House,Street\r\n";
 
         streets.forEach((s) => {
             membersCSV = this.streetToCSV(membersCSV, s);
