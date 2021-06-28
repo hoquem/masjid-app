@@ -10,6 +10,7 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 router.post('/google', async (req, res) => {
 
     try {
+
         const token = req.body.token;
 
         const ticket = await client.verifyIdToken({
@@ -19,6 +20,7 @@ router.post('/google', async (req, res) => {
         const payload = ticket.getPayload();    
 
         const {googleId, displayName, firstName, lastName, email, image} = req.body;
+        console.log(`User id:${googleId} email:${email}`);
 
         const user = await User.findOneAndUpdate(
             { googleId: googleId },
@@ -26,7 +28,7 @@ router.post('/google', async (req, res) => {
             { upsert: true, new: true }
         ).lean();
 
-        console.log(`Looking if user ${user.email} is authorised`)
+        console.log(`Looking if user ${user.email} is authorised`);
         const authoriseduser = await AuthorisedUser.findOne(
             { email: user.email }
         ).lean();
